@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { calculateCartTotals } from "@/lib/pos";
 import type { CartItem } from "@/types";
 import { formatIDR } from "@/utils/currency";
+import Button from "../ui/Button";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -101,34 +102,38 @@ export function PaymentModal({
   };
 
   return (
-    <div className="modal-overlay fixed inset-0 z-[100] grid place-items-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="modal animate-zoom-in bg-surface no-scrollbar max-h-[90vh] w-full max-w-[480px] overflow-y-auto rounded-lg shadow-xl duration-200">
+    <div className="modal-overlay fixed inset-0 z-[100] grid place-items-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in">
+      <div className="modal bg-surface border-border no-scrollbar max-h-[90vh] w-full max-w-[480px] overflow-y-auto rounded-xl border shadow-2xl duration-200">
         {/* Header */}
-        <div className="modal-header border-line flex items-center justify-between border-b p-5">
-          <h2 className="font-display text-fg text-lg font-bold">Pembayaran</h2>
+        <div className="modal-header border-border flex items-center justify-between border-b p-5">
+          <h2 className="text-fg text-lg font-bold">Pembayaran</h2>
           <button
             type="button"
             onClick={onClose}
-            className="modal-close text-muted hover:bg-fg-soft grid h-8 w-8 place-items-center rounded-lg transition-colors"
+            className="text-muted hover:text-fg hover:bg-surface-sub grid h-8 w-8 place-items-center rounded-md transition-colors cursor-pointer"
           >
             <XIcon size={18} />
           </button>
         </div>
 
         {/* Total Tagihan */}
-        <div className="modal-total-display border-line bg-bg border-b px-6 py-4 text-center">
-          <div className="text-muted mb-1 text-xs">Total Tagihan</div>
-          <div className="modal-total-amount text-fg font-mono text-3xl font-extrabold tracking-tight">
+        <div className="modal-total-display border-border bg-bg border-b px-6 py-4 text-center">
+          <div className="text-muted mb-1 text-xs font-medium">Total Tagihan</div>
+          <div className="modal-total-amount text-fg text-3xl font-extrabold tracking-tight tabular-nums">
             {formatIDR(total)}
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="pay-tabs border-line bg-bg m-5 flex gap-1 overflow-hidden rounded-xl border p-1">
+        <div className="pay-tabs border-border bg-bg m-5 flex gap-1 overflow-hidden rounded-lg border p-1">
           <button
             type="button"
             onClick={() => setPayTab("cash")}
-            className={`pay-tab flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-medium transition-all ${payTab === "cash" ? "bg-surface text-fg font-semibold shadow-sm" : "hover:text-fg text-muted"}`}
+            className={`pay-tab flex min-h-[38px] flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium transition-all cursor-pointer ${
+              payTab === "cash"
+                ? "bg-surface text-fg font-semibold shadow-xs"
+                : "hover:text-fg text-muted"
+            }`}
           >
             <MoneyIcon size={18} />
             <span>Tunai</span>
@@ -137,26 +142,25 @@ export function PaymentModal({
           <button
             type="button"
             onClick={() => setPayTab("qris")}
-            className={`pay-tab flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-medium transition-all ${payTab === "qris" ? "bg-surface text-fg font-semibold shadow-sm" : "hover:text-fg text-muted"}`}
+            className={`pay-tab flex min-h-[38px] flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium transition-all cursor-pointer ${
+              payTab === "qris"
+                ? "bg-surface text-fg font-semibold shadow-xs"
+                : "hover:text-fg text-muted"
+            }`}
           >
             <QrCodeIcon size={18} />
             <span>QRIS</span>
           </button>
-
-          {/* <button type="button" onClick={() => setPayTab("transfer")} className={`pay-tab flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-medium transition-all ${payTab === "transfer" ? "bg-surface text-fg font-semibold shadow-sm" : "hover:text-fg text-muted"}`}>
-            <BankIcon size={18} />
-            <span>Transfer</span>
-          </button> */}
         </div>
 
         {/* Cash Panel */}
         {payTab === "cash" && (
           <div className="px-6 pb-6">
-            <div className="border-line bg-bg mb-4 rounded-xl border p-3.5 text-right">
-              <div className="text-muted mb-0.5 text-[11px]">
+            <div className="border-border bg-bg mb-4 rounded-lg border p-3.5 text-right">
+              <div className="text-muted mb-0.5 text-[11px] font-medium">
                 Jumlah Uang Diterima
               </div>
-              <div className="text-fg font-mono text-2xl font-bold">
+              <div className="text-fg text-2xl font-bold tabular-nums">
                 {formatIDR(cashGivenNumber)}
               </div>
             </div>
@@ -166,28 +170,28 @@ export function PaymentModal({
               <button
                 type="button"
                 onClick={() => handleQuickCash("exact")}
-                className="hover:text-surface border-accent bg-accent-soft text-accent hover:bg-accent rounded-lg border p-2.5 font-mono text-xs font-semibold transition-all"
+                className="hover:bg-accent hover:text-white border-accent bg-accent-soft text-accent rounded-md border p-2.5 text-xs font-semibold transition-all cursor-pointer tabular-nums"
               >
                 Uang Pas ({formatIDR(total)})
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickCash(20000)}
-                className="bg-surface border-line text-fg hover:border-accent rounded-lg border p-2.5 font-mono text-xs font-medium transition-all"
+                className="bg-surface border-line text-fg hover:border-accent rounded-md border p-2.5 text-xs font-medium transition-all cursor-pointer tabular-nums"
               >
                 Rp 20.000
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickCash(50000)}
-                className="bg-surface border-line text-fg hover:border-accent rounded-lg border p-2.5 font-mono text-xs font-medium transition-all"
+                className="bg-surface border-line text-fg hover:border-accent rounded-md border p-2.5 text-xs font-medium transition-all cursor-pointer tabular-nums"
               >
                 Rp 50.000
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickCash(100000)}
-                className="bg-surface border-line text-fg hover:border-accent rounded-lg border p-2.5 font-mono text-xs font-medium transition-all"
+                className="bg-surface border-line text-fg hover:border-accent rounded-md border p-2.5 text-xs font-medium transition-all cursor-pointer tabular-nums"
               >
                 Rp 100.000
               </button>
@@ -201,7 +205,7 @@ export function PaymentModal({
                     key={num}
                     type="button"
                     onClick={() => handleNumpadClick(num)}
-                    className="numpad-btn bg-surface border-line hover:bg-fg-soft grid place-items-center rounded-lg border p-3 font-mono text-lg font-bold transition-colors"
+                    className="numpad-btn bg-surface border-line hover:bg-surface-sub hover:border-line-sub grid place-items-center rounded-md border p-3 text-lg font-bold transition-colors cursor-pointer select-none tabular-nums text-fg"
                   >
                     {num}
                   </button>
@@ -210,7 +214,7 @@ export function PaymentModal({
               <button
                 type="button"
                 onClick={() => handleNumpadClick("back")}
-                className="numpad-btn bg-surface border-line hover:bg-danger-soft hover:text-danger grid place-items-center rounded-lg border p-3 font-mono text-sm font-bold transition-colors"
+                className="numpad-btn bg-surface border-line hover:bg-danger-soft hover:text-danger grid place-items-center rounded-md border p-3 text-sm font-bold transition-colors cursor-pointer text-muted"
               >
                 <BackspaceIcon size={20} />
               </button>
@@ -218,31 +222,27 @@ export function PaymentModal({
 
             {/* Change Display */}
             {isCashSufficient && (
-              <div className="bg-accent-soft mb-4 flex items-center justify-between rounded-xl p-3.5">
+              <div className="bg-accent-soft border border-accent/20 mb-4 flex items-center justify-between rounded-lg p-3.5">
                 <span className="text-accent text-xs font-semibold">
                   Kembalian
                 </span>
-                <span className="text-accent font-mono text-xl font-bold">
+                <span className="text-accent text-xl font-bold tabular-nums">
                   {formatIDR(changeAmount)}
                 </span>
               </div>
             )}
 
-            <button
+            <Button
               type="button"
-              disabled={!isCashSufficient || isProcessing}
+              size="lg"
+              disabled={!isCashSufficient}
+              loading={isProcessing}
               onClick={() => handleConfirmPay("cash", cashGivenNumber)}
-              className="text-surface bg-accent disabled:hover:bg-accent hover:bg-accent-hover flex w-full items-center justify-center gap-2 rounded-lg py-3.5 text-sm font-semibold transition-all disabled:opacity-40"
+              className="w-full h-12 text-sm font-bold shadow-xs"
             >
-              {isProcessing ? (
-                <span>Memproses...</span>
-              ) : (
-                <>
-                  <CheckCircleIcon size={18} weight="bold" />
-                  <span>Selesaikan Pembayaran Tunai</span>
-                </>
-              )}
-            </button>
+              <CheckCircleIcon size={18} weight="bold" />
+              <span>Selesaikan Pembayaran Tunai</span>
+            </Button>
           </div>
         )}
 
@@ -250,7 +250,7 @@ export function PaymentModal({
         {payTab === "qris" && (
           <div className="px-6 pb-6 text-center">
             <div className="py-2">
-              <div className="border-line bg-bg mx-auto mb-4 grid h-48 w-48 place-items-center rounded-2xl border-2 border-dashed p-3">
+              <div className="border-border bg-bg mx-auto mb-4 grid h-48 w-48 place-items-center rounded-lg border-2 border-dashed p-3">
                 <div className="grid h-36 w-36 grid-cols-7 grid-rows-7 gap-1">
                   {Array.from({ length: 49 }, (_, cellId) => cellId).map(
                     (cellId) => {
@@ -266,7 +266,7 @@ export function PaymentModal({
                 </div>
               </div>
 
-              <div className="text-fg mb-1 font-mono text-2xl font-bold">
+              <div className="text-fg mb-1 text-2xl font-bold tabular-nums">
                 {formatQrisTimer(qrisTimer)}
               </div>
               <p className="text-muted mb-4 text-xs">
@@ -274,14 +274,16 @@ export function PaymentModal({
                 M-Banking.
               </p>
 
-              <button
+              <Button
                 type="button"
-                disabled={isProcessing}
+                variant="outline"
+                size="md"
+                loading={isProcessing}
                 onClick={() => handleConfirmPay("qris", total)}
-                className="qris-simulate hover:text-surface border-accent bg-accent-soft text-accent hover:bg-accent w-full rounded-xl border py-3 text-xs font-semibold transition-all"
+                className="w-full"
               >
-                {isProcessing ? "Memproses..." : "Simulasi Pembayaran Berhasil"}
-              </button>
+                Simulasi Pembayaran Berhasil
+              </Button>
             </div>
           </div>
         )}
@@ -289,10 +291,10 @@ export function PaymentModal({
         {/* Transfer Panel */}
         {payTab === "transfer" && (
           <div className="px-6 pb-6">
-            <div className="border-line bg-bg mb-4 space-y-3 rounded-xl border p-4">
-              <div className="border-line flex items-center justify-between border-b pb-2 text-xs">
+            <div className="border-border bg-bg mb-4 space-y-3 rounded-lg border p-4">
+              <div className="border-border flex items-center justify-between border-b pb-2 text-xs">
                 <span className="text-muted font-medium">Bank BCA</span>
-                <span className="text-fg font-mono font-bold">
+                <span className="text-fg font-bold tabular-nums">
                   8830-1928-4411
                 </span>
               </div>
@@ -304,21 +306,16 @@ export function PaymentModal({
               </div>
             </div>
 
-            <button
+            <Button
               type="button"
-              disabled={isProcessing}
+              size="lg"
+              loading={isProcessing}
               onClick={() => handleConfirmPay("transfer", total)}
-              className="btn-complete text-surface bg-accent hover:bg-accent-hover flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-all"
+              className="w-full h-12 text-sm font-bold"
             >
-              {isProcessing ? (
-                "Memproses..."
-              ) : (
-                <>
-                  <CheckCircleIcon size={18} weight="bold" />
-                  <span>Konfirmasi Transfer Berhasil</span>
-                </>
-              )}
-            </button>
+              <CheckCircleIcon size={18} weight="bold" />
+              <span>Konfirmasi Transfer Berhasil</span>
+            </Button>
           </div>
         )}
       </div>

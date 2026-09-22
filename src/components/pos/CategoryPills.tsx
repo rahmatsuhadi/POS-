@@ -16,7 +16,11 @@ export function CategoryPills({
       <button
         type="button"
         onClick={() => onSelectCategory("Semua")}
-        className={`inline-flex min-h-[40px] items-center rounded-full border px-4.5 py-2 text-xs font-medium whitespace-nowrap transition-all ${activeCategory === "Semua" ? "bg-fg border-fg text-surface font-semibold" : "border-line bg-surface text-muted hover:border-bg hover:text-fg"}`}
+        className={`inline-flex h-9 items-center justify-center rounded-md border px-4 text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+          activeCategory === "Semua"
+            ? "border-fg bg-fg text-surface font-semibold shadow-xs"
+            : "border-line bg-surface text-muted hover:border-fg/40 hover:text-fg"
+        }`}
       >
         Semua
       </button>
@@ -27,7 +31,11 @@ export function CategoryPills({
             key={cat.id}
             type="button"
             onClick={() => onSelectCategory(cat.name)}
-            className={`inline-flex min-h-[40px] items-center rounded-full border px-4.5 py-2 text-xs font-medium whitespace-nowrap transition-all ${isActive ? "border-fg text-surface bg-fg font-semibold" : "border-line bg-surface text-muted hover:border-bg hover:text-fg"}`}
+            className={`inline-flex h-9 items-center justify-center rounded-md border px-4 text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+              isActive
+                ? "border-fg bg-fg text-surface font-semibold shadow-xs"
+                : "border-line bg-surface text-muted hover:border-fg/40 hover:text-fg"
+            }`}
           >
             {cat.name}
           </button>

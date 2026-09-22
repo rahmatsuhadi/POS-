@@ -13,27 +13,27 @@ export function ProductGrid({ products, onSelectProduct }: ProductGridProps) {
   const getStockBadge = (product: Product) => {
     if (!product.trackStock) {
       return (
-        <span className="stock-badge rounded bg-blue-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-blue-600">
+        <span className="stock-badge rounded-sm bg-blue-500/10 text-blue-600 border border-blue-500/20 px-2 py-0.5 text-[10px] font-semibold">
           Layanan
         </span>
       );
     }
     if (product.stock <= 0) {
       return (
-        <span className="stock-badge out-stock bg-danger-soft text-danger rounded px-2 py-0.5 font-mono text-[10px] font-semibold">
+        <span className="stock-badge out-stock bg-danger-soft text-danger border border-danger/20 rounded-sm px-2 py-0.5 text-[10px] font-semibold">
           Habis
         </span>
       );
     }
     if (product.stock <= 5) {
       return (
-        <span className="stock-badge low-stock bg-warning-soft rounded px-2 py-0.5 font-mono text-[10px] font-semibold text-amber-700">
+        <span className="stock-badge low-stock bg-warning-soft text-amber-700 border border-amber-500/20 rounded-sm px-2 py-0.5 text-[10px] font-semibold">
           Stok {product.stock}
         </span>
       );
     }
     return (
-      <span className="stock-badge in-stock bg-accent-soft text-accent rounded px-2 py-0.5 font-mono text-[10px] font-semibold">
+      <span className="stock-badge in-stock bg-accent-soft text-accent border border-accent/20 rounded-sm px-2 py-0.5 text-[10px] font-semibold">
         Stok {product.stock}
       </span>
     );
@@ -41,7 +41,7 @@ export function ProductGrid({ products, onSelectProduct }: ProductGridProps) {
 
   if (products.length === 0) {
     return (
-      <div className="product-grid-wrap flex flex-1 flex-col items-center justify-center overflow-y-auto p-6 text-[var(--muted)]">
+      <div className="product-grid-wrap flex flex-1 flex-col items-center justify-center overflow-y-auto p-6 text-muted">
         <div className="h-36 w-36">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,53 +52,40 @@ export function ProductGrid({ products, onSelectProduct }: ProductGridProps) {
             aria-label="Produk Kosong"
           >
             <title>Produk Kosong</title>
-            {/* <!-- Background --> */}
             <rect width="100%" height="100%" fill="transparent" />
-
-            {/* <!-- Grup Garis (Stroke) --> */}
             <g
               stroke="#8d9297"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               fill="none"
             >
-              <path d="M 174 135 C 174 72, 226 72, 226 135" stroke-width="7" />
-
+              <path d="M 174 135 C 174 72, 226 72, 226 135" strokeWidth="7" />
               <polygon
                 points="148,135 252,135 268,272 132,272"
-                stroke-width="7.5"
+                strokeWidth="7.5"
               />
-
               <path
                 d="M 188 215 C 188 200, 212 200, 212 215"
-                stroke-width="6.5"
+                strokeWidth="6.5"
               />
-
               <path
                 d="M 124 78 C 124 67, 149 67, 149 83 C 149 96, 141 96, 141 106"
-                stroke-width="6.5"
+                strokeWidth="6.5"
               />
-
               <path
                 d="M 282 170 L 288 176 M 288 170 L 282 176"
-                stroke-width="2.2"
+                strokeWidth="2.2"
               />
-
               <path
                 d="M 119 238 L 119 248 M 114 243 L 124 243"
-                stroke-width="2.2"
+                strokeWidth="2.2"
               />
-
-              <circle cx="112" cy="192" r="5" stroke-width="2.5" />
-
-              <circle cx="280" cy="222" r="4.5" stroke-width="2.5" />
+              <circle cx="112" cy="192" r="5" strokeWidth="2.5" />
+              <circle cx="280" cy="222" r="4.5" strokeWidth="2.5" />
             </g>
-
             <g fill="#8d9297">
               <circle cx="141" cy="115" r="4.5" />
-
               <circle cx="177" cy="177" r="6" />
-
               <circle cx="223" cy="177" r="6" />
             </g>
           </svg>
@@ -123,7 +110,11 @@ export function ProductGrid({ products, onSelectProduct }: ProductGridProps) {
               type="button"
               disabled={isOutOfStock}
               onClick={() => onSelectProduct(product)}
-              className={`group border-line bg-surface relative flex flex-col rounded-lg border p-3 text-left transition-all ${isOutOfStock ? "cursor-not-allowed opacity-50" : "hover:border-fg hover:shadow-sm"}`}
+              className={`group border-line bg-surface relative flex flex-col rounded-lg border p-3 text-left transition-all cursor-pointer ${
+                isOutOfStock
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:border-accent hover:shadow-xs active:scale-[0.99]"
+              }`}
             >
               <div className="bg-bg relative mb-2.5 aspect-square w-full overflow-hidden rounded-md">
                 {/* biome-ignore lint/performance/noImgElement: catalog image preview */}
@@ -153,11 +144,11 @@ export function ProductGrid({ products, onSelectProduct }: ProductGridProps) {
                 )}
               </div>
 
-              <div className="text-fg mt-auto pt-1 font-mono text-sm font-semibold">
+              <div className="text-fg mt-auto pt-1 font-bold text-sm tracking-tight tabular-nums">
                 {formatIDR(product.price)}
               </div>
 
-              <div className="bg-accent text-surface group-hover:bg-accent-hover absolute right-3 bottom-3 grid h-8 w-8 place-items-center rounded-full shadow-sm transition-all active:scale-90">
+              <div className="bg-accent text-white group-hover:opacity-90 absolute right-3 bottom-3 grid h-8 w-8 place-items-center rounded-md shadow-xs transition-all active:scale-95">
                 <PlusIcon size={16} weight="bold" />
               </div>
             </button>

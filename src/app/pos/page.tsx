@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BarcodeScannerModal } from "@/components/pos/BarcodeScannerModal";
@@ -14,6 +15,11 @@ import { PosSidebar } from "@/components/pos/PosSidebar";
 import { ProductGrid } from "@/components/pos/ProductGrid";
 import { ReceiptModal } from "@/components/pos/ReceiptModal";
 import { VariantModal } from "@/components/pos/VariantModal";
+import {
+  initAutoSyncEngine,
+  type SyncStatus,
+  subscribeSyncState,
+} from "@/lib/auto-sync";
 import { db, seedInitialDataIfNeeded } from "@/lib/db";
 import {
   addToCart,
@@ -21,6 +27,7 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "@/lib/pos";
+import { getStoreProfile } from "@/lib/store";
 import type {
   CartItem,
   Category,
@@ -46,6 +53,16 @@ export default function PosPage() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [isOnline, setIsOnline] = useState(true);
   const [pendingSyncCount, setPendingSyncCount] = useState(0);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
+  const [toasts, setToasts] = useState<{ id: number; message: string }[]>([]);
+
+  const showToast = useCallback((message: string) => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, message }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  }, []);
 
   // Modals
   const [selectedProductForVariant, setSelectedProductForVariant] =
@@ -62,36 +79,63 @@ export default function PosPage() {
   const [isPinGuardOpen, setIsPinGuardOpen] = useState(false);
   const [pendingTargetUrl, setPendingTargetUrl] = useState("");
 
+  const [checkingStore, setCheckingStore] = useState(true);
+
   // Initialize DB and load products & categories
   const loadData = useCallback(async () => {
     await seedInitialDataIfNeeded();
+    const profile = await getStoreProfile();
+
+    if (!profile || !profile.isOnboarded || !profile.name) {
+      router.replace("/onboarding");
+      return;
+    }
+
     const loadedProducts = await db.products.toArray();
     const loadedCategories = await db.categories.toArray();
-    const profile = await db.store_profile.toCollection().first();
     const syncCount = await db.sync_queue.count();
 
     setProducts(loadedProducts);
     setCategories(loadedCategories);
-    setStoreProfile(profile || null);
+    setStoreProfile(profile);
     setPendingSyncCount(syncCount);
-  }, []);
+    setCheckingStore(false);
+  }, [router]);
 
   useEffect(() => {
     loadData();
 
-    // Network status detection
-    setIsOnline(navigator.onLine);
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+    // Initialize Auto-Sync Engine & subscribe to real-time sync state
+    const cleanupAutoSync = initAutoSyncEngine();
+    const unsubscribe = subscribeSyncState((state) => {
+      setSyncStatus(state.status);
+      setPendingSyncCount(state.pendingCount);
+      setIsOnline(state.status !== "offline");
+    });
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
+      unsubscribe();
+      cleanupAutoSync();
     };
   }, [loadData]);
+
+  // Listener event notifikasi sinkronisasi selesai
+  useEffect(() => {
+    const handleSyncCompleted = (e: Event) => {
+      const customEvent = e as CustomEvent<{ syncedCount?: number }>;
+      const count = customEvent.detail?.syncedCount ?? 0;
+      if (count > 0) {
+        showToast(
+          `${count} item transaksi/profil berhasil disinkronkan ke cloud! 🚀`,
+        );
+      }
+    };
+
+    window.addEventListener("kalapos:sync-completed", handleSyncCompleted);
+    return () => {
+      window.removeEventListener("kalapos:sync-completed", handleSyncCompleted);
+    };
+  }, [showToast]);
 
   // Keyboard shortcut listener (F2 for barcode scan)
   useEffect(() => {
@@ -213,8 +257,35 @@ export default function PosPage() {
     router.push(targetUrl);
   };
 
+  if (checkingStore) {
+    return (
+      <div className="bg-bg text-fg flex h-dvh w-full items-center justify-center font-sans">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-lg font-bold tracking-wider text-white shadow-xl shadow-slate-900/10">
+            K
+            <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-4 w-4 rounded-full bg-emerald-500" />
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5">
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-emerald-600 border-t-transparent" />
+              <p className="text-sm font-semibold text-slate-800">
+                Memeriksa data toko lokal...
+              </p>
+            </div>
+            <p className="font-mono text-xs text-slate-500">
+              Menyiapkan produk & keranjang kasir
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-bg text-gf flex h-dvh w-full overflow-hidden">
+    <div className="bg-bg text-fg flex h-dvh w-full overflow-hidden">
       {/* Sidebar Desktop */}
       <PosSidebar onNavigateWithGuard={handleNavigateWithGuard} />
 
@@ -225,6 +296,7 @@ export default function PosPage() {
           onSearchChange={setSearchQuery}
           onOpenBarcodeScanner={() => setIsBarcodeScannerOpen(true)}
           isOnline={isOnline}
+          syncStatus={syncStatus}
           pendingSyncCount={pendingSyncCount}
           cashierName={
             storeProfile?.name ? `Kasir ${storeProfile.name}` : "Kasir Ari"
@@ -305,6 +377,19 @@ export default function PosPage() {
         onClose={() => setIsPinGuardOpen(false)}
         onSuccess={handlePinSuccess}
       />
+
+      {/* Sync Toast Notification Container */}
+      <div className="pointer-events-none fixed bottom-5 right-5 z-[150] space-y-2">
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className="bg-surface/95 border-emerald-500/30 text-fg pointer-events-auto flex items-center gap-2.5 rounded-xl border px-4 py-3 text-xs font-medium shadow-lg backdrop-blur-md animate-in slide-in-from-bottom-3 duration-200"
+          >
+            <CheckCircleIcon size={18} className="text-emerald-500 shrink-0" />
+            <span>{toast.message}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -7,6 +7,8 @@ import {
   QuestionIcon,
   ReceiptIcon,
 } from "@phosphor-icons/react";
+import Image from "next/image";
+import {BrandLogo} from "../BrandLogo";
 
 interface PosSidebarProps {
   onNavigateWithGuard: (href: string) => void;
@@ -30,11 +32,9 @@ export function PosSidebar({
       className="bg-surface border-line z-10 flex hidden h-full w-[72px] shrink-0 flex-col items-center gap-1 border-r py-4 md:flex"
       data-od-id="sidebar"
     >
-      <div className="bg-fg text-surface font-display mb-5 grid h-10 w-10 shrink-0 place-items-center rounded-sm text-lg font-bold">
-        K
-      </div>
+      <BrandLogo/>
 
-      <div className="flex w-full flex-1 flex-col gap-1.5 px-2">
+      <div className="mt-5 flex w-full flex-1 flex-col gap-1.5 px-2">
         <a
           href="/pos"
           onClick={(e) => handleNavClick(e, "/pos")}

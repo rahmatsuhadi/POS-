@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateCartTotals } from "@/lib/pos";
 import type { CartItem } from "@/types";
+import Button from "../ui/Button";
 
 interface CartSidebarProps {
   cart: CartItem[];
@@ -36,10 +37,10 @@ export function CartSidebar({
       {/* Header */}
       <div className="cart-header border-line flex shrink-0 items-center justify-between border-b p-4 px-5">
         <div className="flex items-center gap-2.5">
-          <h2 className="cart-title font-display text-fg text-base font-bold">
+          <h2 className="cart-title text-fg text-base font-bold">
             Pesanan
           </h2>
-          <span className="cart-count bg-accent-soft text-accent rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold">
+          <span className="cart-count bg-accent-soft text-accent border border-accent/20 rounded-full px-2.5 py-0.5 text-xs font-semibold">
             {itemCount}
           </span>
         </div>
@@ -48,7 +49,7 @@ export function CartSidebar({
           <button
             type="button"
             onClick={onClearCart}
-            className="cart-clear text-danger hover:bg-danger-soft inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors"
+            className="cart-clear text-danger hover:bg-danger-soft inline-flex items-center gap-1 rounded-sm px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer"
           >
             <TrashIcon size={14} />
             <span>Hapus</span>
@@ -76,10 +77,10 @@ export function CartSidebar({
             return (
               <div
                 key={item.cartItemId}
-                className="border-line-sub hover:bg-fg-soft grid grid-cols-[1fr_auto] items-center gap-2 border-b px-5 py-3 transition-colors last:border-0"
+                className="border-line-sub hover:bg-surface-sub grid grid-cols-[1fr_auto] items-center gap-2 border-b px-5 py-3 transition-colors last:border-0"
               >
                 <div className="min-w-0 pr-2">
-                  <div className="text-fg truncate text-xs font-medium">
+                  <div className="text-fg truncate text-xs font-semibold">
                     {item.name}
                   </div>
 
@@ -97,13 +98,13 @@ export function CartSidebar({
                     </div>
                   )}
 
-                  <div className="text-muted mt-1 font-mono text-[11px]">
+                  <div className="text-muted mt-1 text-[11px] tabular-nums">
                     {formatIDR(item.price)}
                   </div>
                 </div>
 
                 <div className="flex flex-col items-end gap-1.5">
-                  <div className="text-fg font-mono text-xs font-semibold">
+                  <div className="text-fg font-bold text-xs tabular-nums">
                     {formatIDR(item.price * item.quantity)}
                   </div>
 
@@ -115,7 +116,7 @@ export function CartSidebar({
                           ? onRemoveItem(item.cartItemId)
                           : onUpdateQuantity(item.cartItemId, -1)
                       }
-                      className="qty-btn text-muted hover:bg-danger-soft hover:text-danger grid h-7 w-7 place-items-center text-xs transition-colors"
+                      className="qty-btn text-muted hover:bg-danger-soft hover:text-danger grid h-7 w-7 place-items-center text-xs transition-colors cursor-pointer"
                       title={item.quantity === 1 ? "Hapus Item" : "Kurangi"}
                     >
                       {item.quantity === 1 ? (
@@ -125,7 +126,7 @@ export function CartSidebar({
                       )}
                     </button>
 
-                    <span className="qty-val border-line w-8 border-x text-center font-mono text-xs leading-7 font-semibold select-none">
+                    <span className="qty-val border-line w-8 border-x text-center text-xs leading-7 font-semibold select-none tabular-nums">
                       {item.quantity}
                     </span>
 
@@ -133,7 +134,7 @@ export function CartSidebar({
                       type="button"
                       disabled={isAtMaxStock}
                       onClick={() => onUpdateQuantity(item.cartItemId, 1)}
-                      className="qty-btn text-muted hover:text-fg grid h-7 w-7 place-items-center text-xs transition-colors hover:bg-[var(--fg-soft)] disabled:opacity-30 disabled:hover:bg-transparent"
+                      className="qty-btn text-muted hover:text-fg grid h-7 w-7 place-items-center text-xs transition-colors hover:bg-surface-sub disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer"
                       title={isAtMaxStock ? "Stok Maksimal" : "Tambah"}
                     >
                       <PlusIcon size={12} />
@@ -152,31 +153,32 @@ export function CartSidebar({
           <div className="mb-4 flex flex-col gap-2">
             <div className="text-muted flex justify-between text-xs">
               <span>Subtotal</span>
-              <span className="text-fg font-mono">{formatIDR(subtotal)}</span>
+              <span className="text-fg font-medium tabular-nums">{formatIDR(subtotal)}</span>
             </div>
             <div className="text-muted flex justify-between text-xs">
               <span>Pajak (11%)</span>
-              <span className="text-fg font-mono">{formatIDR(tax)}</span>
+              <span className="text-fg font-medium tabular-nums">{formatIDR(tax)}</span>
             </div>
             <div className="text-fg border-line mt-1 flex justify-between border-t pt-2 text-base font-bold">
               <span>Total Tagihan</span>
-              <span className="text-accent font-mono font-extrabold">
+              <span className="text-accent font-extrabold tabular-nums">
                 {formatIDR(total)}
               </span>
             </div>
           </div>
 
-          <button
+          <Button
             type="button"
+            size="lg"
             onClick={onOpenCheckout}
-            className="bg-accent text-surface flex min-h-[50px] w-full items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm font-semibold shadow-sm transition-all hover:bg-[var(--accent-hover)] active:translate-y-0.5"
+            className="w-full h-12 text-sm font-bold shadow-xs flex items-center justify-center gap-2"
           >
             <CreditCardIcon size={18} weight="bold" />
             <span>Bayar</span>
-            <span className="ml-1 rounded bg-white/20 px-2 py-0.5 font-mono text-xs">
+            <span className="ml-1 rounded-sm bg-white/20 px-2 py-0.5 text-xs font-semibold tabular-nums">
               {formatIDR(total)}
             </span>
-          </button>
+          </Button>
         </div>
       )}
     </aside>
