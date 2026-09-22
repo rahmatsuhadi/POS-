@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Pilar Hitam -->
+  <rect x="16" y="14" width="18" height="72" rx="9" fill="#0F172A" />
+
+  <!-- Sayap Atas K -->
+  <path d="M42 48 L68 20 C70.5 17.5 75 19.3 75 22.8 V30 C75 33 73.5 35.8 71 37.8 L48 56 Z" fill="#10B981" />
+
+  <!-- Sayap Bawah K -->
+  <path d="M44 46 L71 74 C73.5 76.5 75 79.5 75 82.5 V89.5 C75 93 70.5 94.8 68 92.3 L40 62 Z" fill="#10B981" />
+</svg>

@@ -4,6 +4,7 @@ import type {
   OperationalMode,
   StoreProfile,
 } from "../types";
+import { triggerAutoSync } from "./auto-sync";
 import { db } from "./db";
 
 export interface OnboardingInput {
@@ -13,12 +14,46 @@ export interface OnboardingInput {
   businessType: BusinessType;
 }
 
-export const CURRENT_STORE_ID = "current_store";
+export const CURRENT_STORE_ID = "default";
 
 export async function getStoreProfile(): Promise<StoreProfile | null> {
   if (typeof window === "undefined") return null;
   try {
+    // 1. Cek migrasi dari key lama "current_store" jika ada
+    const oldOnboarded = await db.store_profile.get("current_store");
+    if (oldOnboarded) {
+      const migrated: StoreProfile = { ...oldOnboarded, id: CURRENT_STORE_ID };
+      await db.store_profile.put(migrated);
+      await db.store_profile.delete("current_store");
+      return migrated;
+    }
+
     const profile = await db.store_profile.get(CURRENT_STORE_ID);
+
+    // 2. Sinkronkan jika di IndexedDB masih nama seeder dummy tapi di localStorage ada nama asli onboarding
+    const localName = localStorage.getItem("KalaPOS_business_name");
+    const localOnboarded =
+      localStorage.getItem("KalaPOS_onboarding") === "true";
+    if (
+      localOnboarded &&
+      localName &&
+      profile &&
+      profile.name === "Barbershop Bro" &&
+      localName !== "Barbershop Bro"
+    ) {
+      profile.name = localName;
+      const localMode = localStorage.getItem("KalaPOS_mode") as OperationalMode;
+      if (localMode) profile.mode = localMode;
+      const localPin = localStorage.getItem("KalaPOS_admin_pin");
+      if (localPin) profile.adminPin = localPin;
+      const localType = localStorage.getItem(
+        "KalaPOS_business_type",
+      ) as BusinessType;
+      if (localType) profile.businessType = localType;
+      profile.updatedAt = new Date().toISOString();
+      await db.store_profile.put(profile);
+    }
+
     if (profile) return profile;
   } catch (err) {
     console.error("Error fetching store profile from IndexedDB:", err);
@@ -27,7 +62,7 @@ export async function getStoreProfile(): Promise<StoreProfile | null> {
   // Fallback to localStorage check
   const isOnboarded = localStorage.getItem("KalaPOS_onboarding") === "true";
   if (isOnboarded) {
-    return {
+    const fallbackProfile: StoreProfile = {
       id: CURRENT_STORE_ID,
       name: localStorage.getItem("KalaPOS_business_name") || "Toko Saya",
       mode: (localStorage.getItem("KalaPOS_mode") as OperationalMode) || "solo",
@@ -40,6 +75,12 @@ export async function getStoreProfile(): Promise<StoreProfile | null> {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
+    try {
+      await db.store_profile.put(fallbackProfile);
+    } catch {
+      // ignore
+    }
+    return fallbackProfile;
   }
 
   return null;
@@ -112,6 +153,13 @@ export async function initializeStoreProfile(
 
   try {
     await db.store_profile.put(profile);
+    await db.sync_queue.add({
+      id: `sq_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      action: "SYNC_STORE_PROFILE",
+      payload: profile,
+      createdAt: now,
+    });
+    triggerAutoSync().catch(() => {});
   } catch (err) {
     console.error("Error saving store profile to IndexedDB:", err);
   }

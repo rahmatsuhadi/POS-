@@ -19,7 +19,7 @@ interface StepConfigProps {
 }
 
 export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
-  const [businessName, setBusinessName] = useState("Barbershop Bro");
+  const [businessName, setBusinessName] = useState("");
   const [mode, setMode] = useState<OperationalMode>("solo");
   const [adminPin, setAdminPin] = useState("");
   const [businessType] = useState<BusinessType>("retail");
@@ -115,11 +115,10 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
           value={businessName}
           onChange={(e) => setBusinessName(e.target.value)}
           placeholder='Contoh: "Barbershop Bro" / "Kopi Senja"'
-          className={`w-full h-12 px-4 bg-white border rounded-xl text-base text-slate-900 outline-none transition-all ${
-            errors.businessName
+          className={`w-full h-12 px-4 bg-white border rounded-xl text-base text-slate-900 outline-none transition-all ${errors.businessName
               ? "border-red-500 focus:ring-2 focus:ring-red-500/20"
               : "border-slate-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
-          }`}
+            }`}
         />
         {errors.businessName ? (
           <p className="text-xs text-red-500 font-semibold">

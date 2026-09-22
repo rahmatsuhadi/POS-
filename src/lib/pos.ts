@@ -5,6 +5,7 @@ import type {
   Transaction,
   TransactionItem,
 } from "../types";
+import { triggerAutoSync } from "./auto-sync";
 import { db } from "./db";
 
 export function generateCartItemId(
@@ -168,6 +169,9 @@ export async function processCheckout(params: {
       });
     },
   );
+
+  // Optimistic sync trigger
+  triggerAutoSync().catch(() => {});
 
   return transaction;
 }
