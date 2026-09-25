@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
+import { BrandLogo } from "../BrandLogo";
 
 interface StepWelcomeProps {
   onNext: () => void;
@@ -16,8 +17,8 @@ export function StepWelcome({
   return (
     <div className="py-2 text-center sm:py-4">
       {/* Brand Emblem matching Landing TopNav */}
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-2xl font-extrabold text-white shadow-xl shadow-slate-900/10">
-        K
+      <div className="mx-auto mb-5 flex items-center justify-center">
+        <BrandLogo />
       </div>
 
       {/* Brand Title */}

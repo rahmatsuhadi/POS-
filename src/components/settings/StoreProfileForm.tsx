@@ -87,7 +87,7 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
         createdAt: now,
       });
 
-      triggerAutoSync().catch(() => { });
+      triggerAutoSync().catch(() => {});
 
       const elapsed = Math.round(performance.now() - startTime);
       if (onShowToast) {
@@ -116,7 +116,6 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
   return (
     <div className="bg-surface border-border rounded-xl border p-6">
       <div className="mb-6 flex items-center justify-between border-b pb-4 border-border">
-
         <div>
           <h2 className="text-fg font-bold text-lg">
             Profil Toko & Informasi Nota
@@ -138,17 +137,13 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
               id="pf-name"
               type="text"
               required
-              value={profile.name || ''}
+              value={profile.name || ""}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
             />
           </div>
 
           <div>
-            <LabelInput
-              htmlFor="pf-phone"
-            >
-              No. HP
-            </LabelInput>
+            <LabelInput htmlFor="pf-phone">No. HP</LabelInput>
             <Input
               id="pf-phone"
               type="text"
@@ -159,9 +154,7 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
               }
             />
           </div>
-
         </div>
-
 
         <div>
           <LabelInput required htmlFor="pf-owner">
@@ -179,11 +172,7 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
         </div>
 
         <div>
-          <LabelInput
-            htmlFor="pf-address"
-          >
-            Alamat Toko
-          </LabelInput>
+          <LabelInput htmlFor="pf-address">Alamat Toko</LabelInput>
           <TextArea
             id="pf-address"
             rows={2}
@@ -196,9 +185,7 @@ export function StoreProfileForm({ onShowToast }: StoreProfileFormProps) {
         </div>
 
         <div>
-          <LabelInput
-            htmlFor="pf-footer"
-          >
+          <LabelInput htmlFor="pf-footer">
             Catatan Kaki Struk (Receipt Footer)
           </LabelInput>
           <Input

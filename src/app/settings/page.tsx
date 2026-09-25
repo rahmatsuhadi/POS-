@@ -132,8 +132,6 @@ export default function SettingsPage() {
 
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
-
-
         {/* Settings View Container */}
         <div className="flex flex-1 overflow-hidden">
           {/* Vertical Sub-navigation */}
@@ -148,10 +146,11 @@ export default function SettingsPage() {
                     key={item.id}
                     type="button"
                     onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-md text-sm font-semibold transition-all cursor-pointer ${isActive
-                      ? "bg-accent text-white shadow-sm"
-                      : "text-muted hover:bg-fg-soft hover:text-fg"
-                      }`}
+                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-md text-sm font-semibold transition-all cursor-pointer ${
+                      isActive
+                        ? "bg-accent text-white shadow-sm"
+                        : "text-muted hover:bg-fg-soft hover:text-fg"
+                    }`}
                   >
                     <IconComp size={18} />
                     <span>{item.label}</span>
@@ -173,10 +172,11 @@ export default function SettingsPage() {
                     key={item.id}
                     type="button"
                     onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap border shrink-0 ${isActive
-                      ? "bg-accent border-accent text-white"
-                      : "bg-surface border-border text-muted"
-                      }`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap border shrink-0 ${
+                      isActive
+                        ? "bg-accent border-accent text-white"
+                        : "bg-surface border-border text-muted"
+                    }`}
                   >
                     <IconComp size={16} />
                     <span>{item.label}</span>
@@ -262,27 +262,36 @@ export default function SettingsPage() {
   medium backdrop-blur-md animate-in     
   slide-in-from-bottom-3 duration-200    
   pointer-events-auto min-w-[280px] max- 
-  w-sm ${toast.type === "success"
-                ? "bg-surface/95 border-emerald-500/20 text-fg"
-                : "bg-surface/95 border-red-500/20 text-red-600"
-              }`}
+  w-sm ${
+    toast.type === "success"
+      ? "bg-surface/95 border-emerald-500/20 text-fg"
+      : "bg-surface/95 border-red-500/20 text-red-600"
+  }`}
           >
             {toast.type === "success" ? (
-              <div className="flex items-center
+              <div
+                className="flex items-center
   justify-center w-6 h-6 rounded-full bg-
   emerald-500/10 text-emerald-600 shrink-
-  0">
+  0"
+              >
                 <CheckCircleIcon size={16} />
               </div>
             ) : (
-              <div className="flex items-center
+              <div
+                className="flex items-center
   justify-center w-6 h-6 rounded-full bg-
-  red-500/10 text-red-600 shrink-0">
+  red-500/10 text-red-600 shrink-0"
+              >
                 <XCircleIcon size={16} />
               </div>
             )}
-            <span className="truncate leading- 
-  tight">{toast.message}</span>
+            <span
+              className="truncate leading- 
+  tight"
+            >
+              {toast.message}
+            </span>
           </div>
         ))}
       </div>

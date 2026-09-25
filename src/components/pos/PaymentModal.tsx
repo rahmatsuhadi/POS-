@@ -118,7 +118,9 @@ export function PaymentModal({
 
         {/* Total Tagihan */}
         <div className="modal-total-display border-border bg-bg border-b px-6 py-4 text-center">
-          <div className="text-muted mb-1 text-xs font-medium">Total Tagihan</div>
+          <div className="text-muted mb-1 text-xs font-medium">
+            Total Tagihan
+          </div>
           <div className="modal-total-amount text-fg text-3xl font-extrabold tracking-tight tabular-nums">
             {formatIDR(total)}
           </div>

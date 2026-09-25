@@ -5,6 +5,8 @@ import { useState } from "react";
 import type { BusinessType, OperationalMode } from "../../types";
 import { ModeSelector } from "./ModeSelector";
 import { PinInput } from "./PinInput";
+import Input from "../ui/Input";
+import InputLabel from "../ui/InputLabel";
 
 export interface StepConfigFormData {
   businessName: string;
@@ -103,22 +105,14 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
 
       {/* 1. Nama Bisnis Input */}
       <div className="space-y-2">
-        <label
-          htmlFor="businessName"
-          className="block text-sm font-semibold text-slate-900"
-        >
-          1. Nama Bisnis / Toko
-        </label>
-        <input
+        <InputLabel htmlFor="businessName">1. Nama Bisnis / Toko</InputLabel>
+        <Input
           id="businessName"
           type="text"
           value={businessName}
+          error={!!errors.businessName}
           onChange={(e) => setBusinessName(e.target.value)}
-          placeholder='Contoh: "Barbershop Bro" / "Kopi Senja"'
-          className={`w-full h-12 px-4 bg-white border rounded-xl text-base text-slate-900 outline-none transition-all ${errors.businessName
-              ? "border-red-500 focus:ring-2 focus:ring-red-500/20"
-              : "border-slate-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
-            }`}
+          placeholder='"Kopi Senja"'
         />
         {errors.businessName ? (
           <p className="text-xs text-red-500 font-semibold">

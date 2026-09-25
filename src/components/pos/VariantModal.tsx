@@ -70,9 +70,7 @@ export function VariantModal({
       <div className="bg-surface border-border animate-in zoom-in max-h-[90vh] w-full max-w-[420px] overflow-y-auto rounded-xl border shadow-2xl duration-200">
         {/* Header */}
         <div className="border-border flex items-center justify-between border-b p-5">
-          <h2 className="text-fg text-base font-bold">
-            Pilih Varian
-          </h2>
+          <h2 className="text-fg text-base font-bold">Pilih Varian</h2>
           <button
             type="button"
             onClick={onClose}
@@ -167,7 +165,9 @@ export function VariantModal({
 
           <div className="flex items-center justify-between gap-3 border-t border-border pt-4">
             <div>
-              <span className="text-muted block text-[11px] font-medium">Total Harga</span>
+              <span className="text-muted block text-[11px] font-medium">
+                Total Harga
+              </span>
               <span className="text-fg text-lg font-bold tabular-nums">
                 {formatIDR(totalPrice)}
               </span>

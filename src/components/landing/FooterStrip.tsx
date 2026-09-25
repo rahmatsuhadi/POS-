@@ -1,9 +1,8 @@
 "use client";
 
 import { ArrowRight, Lightning } from "@phosphor-icons/react";
-import Image from "next/image";
 import Link from "next/link";
-import { BrandLogo, BrandLogoDark } from "../BrandLogo";
+import { BrandLogo } from "../BrandLogo";
 
 interface FooterStripProps {
   isOnboarded?: boolean;
@@ -58,10 +57,8 @@ export function FooterStrip({ isOnboarded = false }: FooterStripProps) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-8 flex flex-wrap items-center justify-between gap-6 border-b border-slate-800 pb-8">
             <Link href="/" className="flex items-center gap-2.5">
-              <BrandLogo/>
-              <span className="font-bold text-xl text-white">
-                KalaPOS
-              </span>
+              <BrandLogo />
+              <span className="font-bold text-xl text-white">KalaPOS</span>
             </Link>
 
             <div className="flex flex-wrap gap-8 font-medium text-slate-400">

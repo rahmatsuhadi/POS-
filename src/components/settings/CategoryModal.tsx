@@ -180,19 +180,10 @@ export function CategoryModal({
           </div>
 
           <div className="flex justify-end gap-2 pt-3 border-t border-border">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={onClose}
-            >
+            <Button type="button" variant="outline" size="sm" onClick={onClose}>
               Batal
             </Button>
-            <Button
-              type="submit"
-              size="sm"
-              loading={saving}
-            >
+            <Button type="submit" size="sm" loading={saving}>
               {category ? "Perbarui" : "Simpan Kategori"}
             </Button>
           </div>

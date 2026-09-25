@@ -37,9 +37,7 @@ export function CartSidebar({
       {/* Header */}
       <div className="cart-header border-line flex shrink-0 items-center justify-between border-b p-4 px-5">
         <div className="flex items-center gap-2.5">
-          <h2 className="cart-title text-fg text-base font-bold">
-            Pesanan
-          </h2>
+          <h2 className="cart-title text-fg text-base font-bold">Pesanan</h2>
           <span className="cart-count bg-accent-soft text-accent border border-accent/20 rounded-full px-2.5 py-0.5 text-xs font-semibold">
             {itemCount}
           </span>
@@ -153,11 +151,15 @@ export function CartSidebar({
           <div className="mb-4 flex flex-col gap-2">
             <div className="text-muted flex justify-between text-xs">
               <span>Subtotal</span>
-              <span className="text-fg font-medium tabular-nums">{formatIDR(subtotal)}</span>
+              <span className="text-fg font-medium tabular-nums">
+                {formatIDR(subtotal)}
+              </span>
             </div>
             <div className="text-muted flex justify-between text-xs">
               <span>Pajak (11%)</span>
-              <span className="text-fg font-medium tabular-nums">{formatIDR(tax)}</span>
+              <span className="text-fg font-medium tabular-nums">
+                {formatIDR(tax)}
+              </span>
             </div>
             <div className="text-fg border-line mt-1 flex justify-between border-t pt-2 text-base font-bold">
               <span>Total Tagihan</span>
