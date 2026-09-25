@@ -1,19 +1,13 @@
 "use client";
 
-import { ArrowRight, Lightning } from "@phosphor-icons/react";
+import { ArrowRightIcon, LightningIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { BrandLogo } from "../BrandLogo";
 
-interface FooterStripProps {
-  isOnboarded?: boolean;
-}
-
-export function FooterStrip({ isOnboarded = false }: FooterStripProps) {
+export function FooterStrip() {
   return (
     <>
-      {/* Action (Closing CTA Strip) */}
       <section className="relative overflow-hidden border-t border-slate-200/80 bg-slate-50/80 py-32 text-center md:py-48">
-        {/* Ambient Radial Aura */}
         <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-[150px]" />
 
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
@@ -30,12 +24,8 @@ export function FooterStrip({ isOnboarded = false }: FooterStripProps) {
               href="/onboarding"
               className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:scale-[1.02] hover:bg-emerald-500 hover:shadow-emerald-600/40"
             >
-              <span>
-                {isOnboarded
-                  ? "Atur Ulang Toko"
-                  : "Buka Kasir Sekarang — Gratis"}
-              </span>
-              <ArrowRight
+              <span>Buka Kasir Sekarang — Gratis</span>
+              <ArrowRightIcon
                 size={16}
                 weight="bold"
                 className="transition-transform group-hover:translate-x-1"
@@ -45,14 +35,17 @@ export function FooterStrip({ isOnboarded = false }: FooterStripProps) {
               href="/pos"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 text-sm font-semibold text-slate-800 shadow-sm transition-all duration-300 hover:border-slate-300 hover:bg-slate-50"
             >
-              <Lightning size={16} weight="fill" className="text-emerald-600" />
+              <LightningIcon
+                size={16}
+                weight="fill"
+                className="text-emerald-600"
+              />
               <span>Coba Demo Kasir</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Main Footer */}
       <footer className="border-t border-slate-800 bg-slate-950 py-12 text-xs text-slate-400">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-8 flex flex-wrap items-center justify-between gap-6 border-b border-slate-800 pb-8">

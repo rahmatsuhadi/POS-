@@ -1,6 +1,6 @@
 "use client";
 
-import { CaretDown } from "@phosphor-icons/react";
+import { CaretDownIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 
 const FAQ_ITEMS = [
@@ -46,7 +46,6 @@ export function FaqSection() {
       className="relative border-t border-slate-200/80 bg-slate-50/80 py-32 md:py-48"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        {/* Header */}
         <div className="mx-auto mb-16 max-w-2xl text-center sm:mb-20">
           <h2 className="mb-4 text-3xl leading-[1.15] font-extrabold tracking-tight text-slate-900 sm:text-5xl">
             Pertanyaan yang sering diajukan.
@@ -57,7 +56,6 @@ export function FaqSection() {
           </p>
         </div>
 
-        {/* Accordion Stack */}
         <div className="space-y-4">
           {FAQ_ITEMS.map((item, idx) => {
             const isOpen = openIndex === idx;
@@ -77,7 +75,7 @@ export function FaqSection() {
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-500 transition-transform duration-300 ${isOpen ? "rotate-180 border-emerald-200 bg-emerald-50 text-emerald-600" : ""}`}
                   >
-                    <CaretDown size={16} weight="bold" />
+                    <CaretDownIcon size={16} weight="bold" />
                   </div>
                 </button>
 

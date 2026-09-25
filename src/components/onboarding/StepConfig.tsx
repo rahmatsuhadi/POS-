@@ -1,12 +1,18 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Gear, Spinner } from "@phosphor-icons/react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  GearIcon,
+  SpinnerIcon,
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import type { BusinessType, OperationalMode } from "../../types";
 import { ModeSelector } from "./ModeSelector";
 import { PinInput } from "./PinInput";
 import Input from "../ui/Input";
 import InputLabel from "../ui/InputLabel";
+import Button from "../ui/Button";
 
 export interface StepConfigFormData {
   businessName: string;
@@ -72,28 +78,22 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Step Nav Bar */}
       <div className="flex items-center justify-between pb-4 border-b border-slate-200">
         <button
           type="button"
           onClick={onBack}
           disabled={isSubmitting}
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shadow-xs"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer rounded-md"
         >
-          <ArrowLeft size={14} weight="bold" />
+          <ArrowLeftIcon size={14} weight="bold" />
           <span>Kembali ke Info</span>
         </button>
-        <span className="font-mono text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+        <span className="font-mono text-xs font-semibold text-emerald-700 px-3 py-1 rounded-full">
           Langkah 2 dari 2
         </span>
       </div>
 
-      {/* Header Block */}
       <div>
-        <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-3 py-1 rounded-full mb-3">
-          <Gear size={13} weight="bold" />
-          <span>Setup Usaha Baru</span>
-        </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
           Konfigurasi Awal Bisnis
         </h2>
@@ -103,7 +103,6 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
         </p>
       </div>
 
-      {/* 1. Nama Bisnis Input */}
       <div className="space-y-2">
         <InputLabel htmlFor="businessName">1. Nama Bisnis / Toko</InputLabel>
         <Input
@@ -125,10 +124,8 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
         )}
       </div>
 
-      {/* 2. Mode Operasional Selector */}
       <ModeSelector value={mode} onChange={setMode} />
 
-      {/* 3. PIN Admin (if Team mode) */}
       {mode === "team" && (
         <PinInput
           value={adminPin}
@@ -137,7 +134,6 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
         />
       )}
 
-      {/* Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}
@@ -145,13 +141,13 @@ export function StepConfig({ onBack, onSubmit }: StepConfigProps) {
       >
         {isSubmitting ? (
           <>
-            <Spinner size={18} className="animate-spin" weight="bold" />
+            <SpinnerIcon size={18} className="animate-spin" weight="bold" />
             <span>Menyimpan Konfigurasi...</span>
           </>
         ) : (
           <>
             <span>Simpan &amp; Masuk ke Kasir</span>
-            <ArrowRight size={16} weight="bold" />
+            <ArrowRightIcon size={16} weight="bold" />
           </>
         )}
       </button>

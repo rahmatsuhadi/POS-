@@ -1,7 +1,9 @@
 "use client";
 
-import { Eye, EyeSlash, LockKey } from "@phosphor-icons/react";
+import { EyeIcon, EyeSlashIcon, LockKeyIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import InputLabel from "../ui/InputLabel";
+import Input from "../ui/Input";
 
 interface PinInputProps {
   value: string;
@@ -20,22 +22,21 @@ export function PinInput({ value, onChange, error }: PinInputProps) {
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-200/80 space-y-3 transition-all">
+    <div className="p-5 rounded-md bg-emerald-50/50 border border-emerald-200/80 space-y-3 transition-all">
       <div className="flex items-center justify-between gap-2">
-        <label
+        <InputLabel
           htmlFor="adminPin"
-          className="text-sm font-semibold text-slate-900"
         >
           3. Buat PIN Admin / Owner
-        </label>
+        </InputLabel>
         <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-full border border-emerald-200">
-          <LockKey size={13} weight="bold" />
-          Wajib di Mode Tim
+          <LockKeyIcon size={13} weight="bold" />
+          Wajib
         </span>
       </div>
 
       <div className="relative">
-        <input
+        <Input
           id="adminPin"
           type={showPin ? "text" : "password"}
           inputMode="numeric"
@@ -44,11 +45,7 @@ export function PinInput({ value, onChange, error }: PinInputProps) {
           value={value}
           onChange={handleChange}
           placeholder="Masukkan 4 - 6 digit PIN angka (contoh: 1234)"
-          className={`w-full pl-4 pr-12 h-12 bg-white border rounded-xl font-mono text-base tracking-widest text-slate-900 outline-none transition-all ${
-            error
-              ? "border-red-500 focus:ring-2 focus:ring-red-500/20"
-              : "border-slate-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
-          }`}
+          error={!!error}
         />
         <button
           type="button"
@@ -58,15 +55,15 @@ export function PinInput({ value, onChange, error }: PinInputProps) {
           aria-label="Tampilkan atau sembunyikan PIN"
         >
           {showPin ? (
-            <EyeSlash size={18} weight="bold" />
+            <EyeSlashIcon size={18} weight="bold" />
           ) : (
-            <Eye size={18} weight="bold" />
+            <EyeIcon size={18} weight="bold" />
           )}
         </button>
       </div>
 
       {error ? (
-        <p className="text-xs text-red-500 font-semibold">{error}</p>
+        <p className="text-xs text-red-300 font-semibold">{error}</p>
       ) : (
         <p className="text-xs text-slate-600 leading-relaxed font-normal">
           PIN ini digunakan pemilik usaha untuk membuka menu Setelan, Laporan

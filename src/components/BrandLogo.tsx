@@ -1,9 +1,30 @@
 import Image from "next/image";
+import type { ComponentProps } from "react";
 
-export function BrandLogo() {
+export interface BrandLogoProps extends ComponentProps<"div"> {
+  size?: number;
+  imageClassName?: string;
+}
+
+export function BrandLogo({
+  className = "",
+  size = 25,
+  imageClassName = "",
+  ...props
+}: BrandLogoProps) {
   return (
-    <div className="bg-fg grid h-10  w-10 shrink-0 place-items-center rounded-sm ">
-      <Image src={"/logo-light.svg"} width={25} height={25} alt="logo" />
+    <div
+      className={`bg-fg grid h-10 w-10 shrink-0 place-items-center rounded-sm ${className}`}
+      {...props}
+    >
+      <Image
+        src="/logo-light.svg"
+        width={size}
+        height={size}
+        alt="logo"
+        className={imageClassName}
+      />
     </div>
   );
 }
+
