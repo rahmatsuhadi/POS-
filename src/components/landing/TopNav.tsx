@@ -3,7 +3,7 @@
 import { ArrowRight, Lightning } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
-import {BrandLogo} from "../BrandLogo";
+import { BrandLogo } from "../BrandLogo";
 
 interface TopNavProps {
   isOnboarded?: boolean;
@@ -15,7 +15,7 @@ export function TopNav({ isOnboarded = false }: TopNavProps) {
       <div className="pointer-events-auto mx-auto flex max-w-5xl items-center justify-between rounded-full border border-slate-200/80 bg-white/80 px-5 py-3 shadow-xl shadow-slate-900/5 backdrop-blur-xl transition-all duration-300 hover:border-slate-300">
         {/* Brand logo */}
         <Link href="/" className="group flex items-center gap-2.5">
-          <BrandLogo/>
+          <BrandLogo />
           <span className="flex items-center gap-1.5 text-sm font-bold tracking-tight text-slate-900">
             KalaPOS
           </span>

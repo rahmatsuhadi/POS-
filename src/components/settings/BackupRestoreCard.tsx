@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  DownloadSimpleIcon,
-  UploadSimpleIcon,
-} from "@phosphor-icons/react";
+import { DownloadSimpleIcon, UploadSimpleIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { exportBackupJSON, importBackupJSON } from "../../lib/sync";
 import Button from "../ui/Button";
@@ -67,8 +64,8 @@ export function BackupRestoreCard({ onShowToast }: BackupRestoreCardProps) {
             Cadangan &amp; Pemulihan Manual (File JSON)
           </h2>
           <p className="text-muted text-xs">
-            Ekspor atau impor seluruh data profil, katalog, dan transaksi
-            dalam file JSON offline.
+            Ekspor atau impor seluruh data profil, katalog, dan transaksi dalam
+            file JSON offline.
           </p>
         </div>
       </div>

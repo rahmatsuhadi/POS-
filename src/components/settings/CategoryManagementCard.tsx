@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  PencilSimpleIcon,
-  PlusIcon,
-  TrashIcon,
-} from "@phosphor-icons/react";
+import { PencilSimpleIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
 import { useCallback, useEffect, useState } from "react";
 import { db } from "../../lib/db";
 import type { Category } from "../../types";
@@ -115,16 +111,12 @@ export function CategoryManagementCard({
             Manajemen Kategori Produk
           </h2>
           <p className="text-muted text-xs">
-            Kelola pengelompokan produk dan opsi bawaan pelacakan stok (Ritel
-            vs Jasa).
+            Kelola pengelompokan produk dan opsi bawaan pelacakan stok (Ritel vs
+            Jasa).
           </p>
         </div>
 
-        <Button
-          type="button"
-          size="sm"
-          onClick={handleOpenAdd}
-        >
+        <Button type="button" size="sm" onClick={handleOpenAdd}>
           <PlusIcon size={16} />
           <span>Tambah Kategori</span>
         </Button>

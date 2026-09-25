@@ -8,6 +8,7 @@ import { CartSidebar } from "@/components/pos/CartSidebar";
 import { CategoryPills } from "@/components/pos/CategoryPills";
 import { MobileBottomBar } from "@/components/pos/MobileBottomBar";
 import { MobileBottomSheet } from "@/components/pos/MobileBottomSheet";
+import { MobileNavDrawer } from "@/components/pos/MobileNavDrawer";
 import { PaymentModal } from "@/components/pos/PaymentModal";
 import { PinGuardModal } from "@/components/pos/PinGuardModal";
 import { PosHeader } from "@/components/pos/PosHeader";
@@ -74,6 +75,7 @@ export default function PosPage() {
   const [latestTransaction, setLatestTransaction] =
     useState<Transaction | null>(null);
   const [isMobileSheetOpen, setIsMobileSheetOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // PIN Guard
   const [isPinGuardOpen, setIsPinGuardOpen] = useState(false);
@@ -301,6 +303,7 @@ export default function PosPage() {
           cashierName={
             storeProfile?.name ? `Kasir ${storeProfile.name}` : "Kasir Ari"
           }
+          onToggleMobileSidebar={() => setIsMobileNavOpen(true)}
         />
 
         <CategoryPills
@@ -341,6 +344,16 @@ export default function PosPage() {
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
         onOpenCheckout={() => setIsPaymentModalOpen(true)}
+      />
+
+      {/* Mobile Navigation Drawer */}
+      <MobileNavDrawer
+        isOpen={isMobileNavOpen}
+        onClose={() => setIsMobileNavOpen(false)}
+        onNavigateWithGuard={handleNavigateWithGuard}
+        activeView="register"
+        storeName={storeProfile?.name || "Toko POS"}
+        ownerName={storeProfile?.ownerName}
       />
 
       {/* Modals */}

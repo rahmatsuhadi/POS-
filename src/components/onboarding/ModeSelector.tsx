@@ -1,6 +1,7 @@
 "use client";
 
 import type { OperationalMode } from "../../types";
+import InputLabel from "../ui/InputLabel";
 
 interface ModeSelectorProps {
   value: OperationalMode;
@@ -10,18 +11,16 @@ interface ModeSelectorProps {
 export function ModeSelector({ value, onChange }: ModeSelectorProps) {
   return (
     <div className="space-y-3">
-      <span className="block text-sm font-semibold text-slate-900">
-        2. Pilih Mode Operasional
-      </span>
+      <InputLabel>2. Pilih Mode Operasional</InputLabel>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Mode Solo */}
         <button
           type="button"
           onClick={() => onChange("solo")}
-          className={`p-5 rounded-2xl border transition-all duration-300 flex items-start gap-3.5 cursor-pointer select-none text-left ${
+          className={`p-5 rounded-md border transition-all duration-300 flex items-start gap-3.5 cursor-pointer select-none text-left ${
             value === "solo"
-              ? "border-emerald-500 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20"
+              ? "border-emerald-500 bg-emerald-50/50 shadow-md"
               : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs"
           }`}
         >
@@ -53,9 +52,9 @@ export function ModeSelector({ value, onChange }: ModeSelectorProps) {
         <button
           type="button"
           onClick={() => onChange("team")}
-          className={`p-5 rounded-2xl border transition-all duration-300 flex items-start gap-3.5 cursor-pointer select-none text-left ${
+          className={`p-5 rounded-md border transition-all duration-300 flex items-start gap-3.5 cursor-pointer select-none text-left ${
             value === "team"
-              ? "border-emerald-500 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20"
+              ? "border-emerald-500 bg-emerald-50/50 shadow-md"
               : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs"
           }`}
         >

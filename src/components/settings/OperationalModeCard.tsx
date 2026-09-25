@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  UserIcon,
-  UsersThreeIcon,
-} from "@phosphor-icons/react";
+import { UserIcon, UsersThreeIcon } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { db } from "../../lib/db";
 import { CURRENT_STORE_ID, getStoreProfile } from "../../lib/store";
@@ -97,9 +94,7 @@ export function OperationalModeCard({
     <div className="bg-surface border-border rounded-xl border p-6">
       <div className="mb-6 flex items-center justify-between border-b pb-4 border-border">
         <div>
-          <h2 className="text-fg font-bold text-lg">
-            Mode Operasional POS
-          </h2>
+          <h2 className="text-fg font-bold text-lg">Mode Operasional POS</h2>
           <p className="text-muted text-xs">
             Pilih pola otorisasi kasir &amp; akses halaman manajemen toko.
           </p>

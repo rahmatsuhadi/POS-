@@ -3,6 +3,7 @@
 import {
   ArrowsClockwiseIcon,
   BarcodeIcon,
+  ListIcon,
   MagnifyingGlassIcon,
   WifiHighIcon,
   WifiSlashIcon,
@@ -18,6 +19,7 @@ interface PosHeaderProps {
   pendingSyncCount?: number;
   cashierName?: string;
   cashierInitials?: string;
+  onToggleMobileSidebar?: () => void;
 }
 
 export function PosHeader({
@@ -29,9 +31,22 @@ export function PosHeader({
   pendingSyncCount = 0,
   cashierName = "Kasir Ari",
   cashierInitials = "AR",
+  onToggleMobileSidebar,
 }: PosHeaderProps) {
   return (
     <header className="bg-surface border-border flex shrink-0 items-center gap-4 border-b px-6 py-3.5">
+      {onToggleMobileSidebar && (
+        <button
+          type="button"
+          onClick={onToggleMobileSidebar}
+          title="Buka Menu Sidebar"
+          aria-label="Buka Menu Sidebar"
+          className="text-muted hover:text-fg hover:bg-surface-sub  flex h-9 w-9 shrink-0 items-center justify-center rounded-md  transition-colors md:hidden cursor-pointer"
+        >
+          <ListIcon size={20} />
+        </button>
+      )}
+
       <div className="relative max-w-[480px] flex-1">
         <MagnifyingGlassIcon
           size={18}
@@ -70,13 +85,12 @@ export function PosHeader({
           </div>
         ) : (
           <div
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold select-none ${
-              isOnline
-                ? pendingSyncCount > 0
-                  ? "bg-amber-500/10 text-amber-600 border border-amber-500/20"
-                  : "bg-accent-soft text-accent border border-accent/20"
-                : "bg-danger-soft text-danger"
-            }`}
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold select-none ${isOnline
+              ? pendingSyncCount > 0
+                ? "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+                : "bg-accent-soft text-accent border border-accent/20"
+              : "bg-danger-soft text-danger"
+              }`}
             title={
               isOnline
                 ? pendingSyncCount > 0
